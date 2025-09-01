@@ -2,23 +2,28 @@
 
 - O que é necessário?
     1. Docker
-    2. Conta no Ngrok
+    2. Usar o LocalTunnel (opcional)
 
-- Configurações da conta:
-    - Para utilizar o n8n local só é necessário somente uma conta, de nível gratuito, no ngrok
-    - É necessário configurar um dominio estático que sera utilizado durante o processo
-        - Esse página explica como criar o dominio [Static domains for all ngrok users](https://ngrok.com/blog-post/free-static-domains-ngrok-users), sendo não necessário definir um endpoint, para o sistema que vamos fazer.
+- Configurações para criar um webhook:
+    - Instalar o LocalTunnel via npm (é necessário NodeJS)
+    - Comando de instalação:
+
+      ```bash
+      npm install -g localtunnel
+      ```
 
 - Como iniciar?
-    - Apos criar a conta no ngrok e criar o dominio, crie um arquivo .env com base no .env.example e adicione todos os dados necessários nessa ordem:
+    - É necessário criar um arquivo .env e adicionar estas informações no arquivo (use o .env.example para criar seu .env):
         1. N8N_BASIC_AUTH_USER: nome do usuário para o n8n, pode ser escolhe a vontade
         2. N8N_BASIC_AUTH_PASSWORD: senha para acessar a conta do n8n
-        3. N8N_HOST: sera igual ao NGROK_DOMAIN
-        4. NGROK_AUTHTOKEN: Token do ngrok, quando criar a conta você já possue acesso a ele
-        5. NGROK_DOMAIN: nome do dominio do ngrok sem https://
-        6. WEBHOOK_URL: nome do dominio completo
-    
-    - Por fim, use o comando no diretorio do projeto:
+        3. LT_SUBDOMAIN: nome do subdominio do localtunnel (ex: meu-projeto-tunnel)
+
+    - Use este comando no diretorio do projeto para criar o container n8n:
         ```bash
         docker compose up -d
+        ```
+
+    - Para ativar um webhook com tunnel (permite comunicação externa com sua maquina para testes, não é recomendado para produção por questões de segurança) [opcional] use este comando no seu terminal:
+        ```bash
+        lt --port 5678 --subdomain meu-projeto-tunnel # Aqui você coloca o nome do seu subdominio, faça o mais unico possível
         ```

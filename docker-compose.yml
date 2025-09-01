@@ -1,8 +1,6 @@
 services:
   n8n:
-    build:
-      context: .
-      dockerfile: Dockerfile.n8n
+    image: docker.n8n.io/n8nio/n8n
     container_name: n8n
     #restart: always
     ports:
@@ -15,23 +13,11 @@ services:
       N8N_PORT: ${N8N_PORT}
       N8N_PROTOCOL: ${N8N_PROTOCOL}
       NODE_ENV: "production"
-      WEBHOOK_URL: ${WEBHOOK_URL}
+      WEBHOOK_URL: https://${LT_SUBDOMAIN}.loca.lt/
       GENERIC_TIMEZONE: ${GENERIC_TIMEZONE}
-    depends_on:
-      - ngrok
+      N8N_TRUST_PROXY: true
     volumes:
       - n8n_data:/home/node/.n8n
-
-  ngrok:
-    image: ngrok/ngrok
-    container_name: ngrok
-    #restart: always
-    environment:
-      NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
-      NGROK_REGION: ${NGROK_REGION}
-    command: ["http", "--domain=${NGROK_DOMAIN}", "n8n:5678"]
-    ports:
-      - "4040:4040"
 
 volumes:
   n8n_data:
