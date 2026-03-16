@@ -16,6 +16,7 @@ services:
       WEBHOOK_URL: https://${LT_SUBDOMAIN}.loca.lt/
       GENERIC_TIMEZONE: ${GENERIC_TIMEZONE}
       N8N_TRUST_PROXY: true
+      N8N_RESTRICT_FILE_ACCESS_TO: "${USER_LOCAL_DATA}:/app_files"
     volumes:
       - n8n_data:/home/node/.n8n
       - ${USER_LOCAL_DATA}:/app_files
